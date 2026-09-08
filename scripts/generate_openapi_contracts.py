@@ -69,14 +69,19 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
     stale: list[Path] = []
+    missing: list[Path] = []
     for path, expected in generated_artifacts().items():
         if args.check:
-            if not path.is_file() or path.read_text(encoding="utf-8") != expected:
+            if not path.is_file():
+                missing.append(path)
+            elif path.read_text(encoding="utf-8") != expected:
                 stale.append(path)
             continue
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(expected, encoding="utf-8")
-    if stale:
+    if missing or stale:
+        for path in missing:
+            print(f"generated contract is missing: {path.relative_to(ROOT)}", file=sys.stderr)
         for path in stale:
             print(f"generated contract is stale: {path.relative_to(ROOT)}", file=sys.stderr)
         return 1

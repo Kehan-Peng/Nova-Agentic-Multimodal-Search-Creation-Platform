@@ -102,10 +102,7 @@ class Settings(BaseSettings):
         if self.security_mode == "local-single-user" and any(
             "provider-gateway" in url for url in provider_urls
         ):
-            gateway_key = (
-                self.provider_gateway_api_key.get_secret_value()
-                or "camcat-local-gateway"
-            )
+            gateway_key = self.provider_gateway_api_key.get_secret_value() or "camcat-local-gateway"
             self.provider_gateway_api_key = SecretStr(gateway_key)
             if not self.embedding_api_key.get_secret_value():
                 self.embedding_api_key = SecretStr(gateway_key)

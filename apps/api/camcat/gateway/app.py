@@ -49,9 +49,7 @@ class BailianUpstream(Protocol):
 @dataclass(frozen=True, slots=True)
 class GatewayConfig:
     incoming_api_key: str
-    embedding_path: str = (
-        "/api/v1/services/embeddings/multimodal-embedding/multimodal-embedding"
-    )
+    embedding_path: str = "/api/v1/services/embeddings/multimodal-embedding/multimodal-embedding"
     reranker_path: str = "/api/v1/services/rerank/text-rerank/text-rerank"
     chat_path: str = "/compatible-mode/v1/chat/completions"
     staging_url_seconds: int = 600
@@ -81,16 +79,12 @@ def create_gateway_app(
     app = FastAPI(title="CamCat Bailian provider gateway", version="0.1.0")
 
     @app.exception_handler(BailianUpstreamError)
-    async def bailian_upstream_error(
-        _request: Request, exc: BailianUpstreamError
-    ) -> JSONResponse:
+    async def bailian_upstream_error(_request: Request, exc: BailianUpstreamError) -> JSONResponse:
         return JSONResponse(status_code=502, content={"detail": str(exc)})
 
     def authorize(authorization: str | None = Header(default=None)) -> None:
         scheme, _, token = (authorization or "").partition(" ")
-        if scheme.lower() != "bearer" or not hmac.compare_digest(
-            token, config.incoming_api_key
-        ):
+        if scheme.lower() != "bearer" or not hmac.compare_digest(token, config.incoming_api_key):
             raise HTTPException(401, "invalid provider gateway bearer token")
 
     Authorized = Depends(authorize)
@@ -297,9 +291,7 @@ def create_gateway_app(
             "messages": [
                 {
                     "role": "user",
-                    "content": [
-                        {"type": "input_audio", "input_audio": {"data": data_uri}}
-                    ],
+                    "content": [{"type": "input_audio", "input_audio": {"data": data_uri}}],
                 }
             ],
             "stream": False,

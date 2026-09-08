@@ -139,9 +139,7 @@ class MilvusSegmentStore:
             or not isinstance(row.get("source_url"), str)
             or not row["source_url"].strip()
         ):
-            raise ValueError(
-                "Milvus rows require semantic_metadata, license_name and source_url"
-            )
+            raise ValueError("Milvus rows require semantic_metadata, license_name and source_url")
         if not isinstance(row.get("storage_key"), str) or not row["storage_key"].strip():
             raise ValueError("Milvus rows require a storage_key for visual reranking")
         self.client.upsert(collection_name=self.collection, data=[row])

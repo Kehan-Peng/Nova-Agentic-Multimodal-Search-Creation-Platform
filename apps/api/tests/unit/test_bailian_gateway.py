@@ -28,9 +28,7 @@ def test_bailian_embedding_maps_joint_input_to_one_2048_fusion_request() -> None
             "contents": [
                 {"text": "sunset"},
                 {"image": "data:image/jpeg;base64,YQ=="},
-                {
-                    "video": "https://media.example/temporary/source.mp4?signature=short-lived"
-                },
+                {"video": "https://media.example/temporary/source.mp4?signature=short-lived"},
             ]
         },
         "parameters": {

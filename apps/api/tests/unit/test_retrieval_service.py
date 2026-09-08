@@ -44,9 +44,7 @@ class RecordingReranker:
     def __init__(self) -> None:
         self.document_batches: list[list[dict[str, Any]]] = []
 
-    def rerank(
-        self, _query: dict[str, Any], documents: list[dict[str, Any]]
-    ) -> list[float]:
+    def rerank(self, _query: dict[str, Any], documents: list[dict[str, Any]]) -> list[float]:
         self.document_batches.append(documents)
         return [0.9] * len(documents)
 

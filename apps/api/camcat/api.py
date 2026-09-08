@@ -678,12 +678,8 @@ def get_graph_run(run_id: UUID, db: Db, owner_id: Owner) -> GraphRunResponse:
     return _graph_run_response(run)
 
 
-@app.get(
-    "/api/v1/graph-runs/{run_id}/search-result", response_model=AgenticSearchResponse
-)
-def get_graph_run_search_result(
-    run_id: UUID, db: Db, owner_id: Owner
-) -> AgenticSearchResponse:
+@app.get("/api/v1/graph-runs/{run_id}/search-result", response_model=AgenticSearchResponse)
+def get_graph_run_search_result(run_id: UUID, db: Db, owner_id: Owner) -> AgenticSearchResponse:
     run = db.scalar(select(GraphRun).where(GraphRun.id == run_id, GraphRun.owner_id == owner_id))
     if run is None:
         raise HTTPException(404, "Graph Run 不存在")
@@ -1133,10 +1129,7 @@ def render_editing_session(
             "session_id": str(session_id),
             "version": current.version,
             "resolution": request.resolution
-            or "x".join(
-                str(value)
-                for value in resolution_for_ratio(configured_ratio)
-            ),
+            or "x".join(str(value) for value in resolution_for_ratio(configured_ratio)),
             "burn_subtitles": request.burn_subtitles,
         },
     )

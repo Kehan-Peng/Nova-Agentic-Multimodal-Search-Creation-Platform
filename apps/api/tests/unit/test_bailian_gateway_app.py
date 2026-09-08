@@ -42,9 +42,7 @@ class FakeUpstream:
         if "embeddings" in path:
             return {
                 "output": {
-                    "embeddings": [
-                        {"index": 0, "type": "fusion", "embedding": [0.25] * 2048}
-                    ]
+                    "embeddings": [{"index": 0, "type": "fusion", "embedding": [0.25] * 2048}]
                 }
             }
         if "chat/completions" in path:
@@ -130,12 +128,12 @@ def test_gateway_requires_bearer_auth_and_adapts_rerank_response() -> None:
             json={
                 "model": "Qwen/Qwen3-VL-Reranker-8B",
                 "query": {"text": "sunset", "image_base64": "data:image/jpeg;base64,YQ=="},
-                    "documents": [
-                        {
-                            "text": "beach",
-                            "video_url": "https://media.example/segment.mp4?signed=true",
-                            "metadata": {"segment_id": "seg-1", "license_name": "Pixabay"},
-                        }
+                "documents": [
+                    {
+                        "text": "beach",
+                        "video_url": "https://media.example/segment.mp4?signed=true",
+                        "metadata": {"segment_id": "seg-1", "license_name": "Pixabay"},
+                    }
                 ],
                 "top_n": 1,
                 "instruction": "Rank source clips.",
@@ -262,9 +260,7 @@ def test_visual_analysis_cleans_partial_staging_upload_failure() -> None:
             *,
             metadata: dict[str, str] | None = None,
         ) -> None:
-            super().upload_stream(
-                stream, key, content_type, metadata=metadata
-            )
+            super().upload_stream(stream, key, content_type, metadata=metadata)
             raise RuntimeError("simulated object store interruption")
 
     store = PartialFailureStore()

@@ -19,8 +19,19 @@ test("real multimodal import, edit, rollback, conflict and render journey", asyn
   await page.goto("/");
   await expect(page.getByText("CamCat", { exact: true }).first()).toBeVisible();
 
+  // Upload controls live in the editor workspace, not on the project list.
+  const openProject = page.locator('button[aria-label^="打开项目 "]').first();
+  await expect(openProject).toBeVisible();
+  await openProject.click();
+  await expect(page.getByPlaceholder("有问题，尽管问")).toBeVisible();
+
   await page.locator('input[type="file"][accept="video/*"]').setInputFiles(videoPath!);
   await expect(page.getByText(/未写入素材库或向量库/)).toBeVisible({ timeout: 20 * 60 * 1000 });
+  const enterEditing = page.getByRole("button", { name: "进入编辑计划", exact: true });
+  if (await enterEditing.count()) {
+    await enterEditing.click();
+  }
+  await expect(page.getByPlaceholder("有问题，尽管问")).toBeVisible();
 
   await page.locator('input[type="file"][accept="image/*"]').setInputFiles(imagePath!);
   await expect(page.getByText(imagePath!.split("/").pop()!)).toBeVisible();

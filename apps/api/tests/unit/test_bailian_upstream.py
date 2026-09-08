@@ -30,9 +30,7 @@ def test_bailian_upstream_authenticates_and_retries_transient_responses() -> Non
         sleeper=delays.append,
     )
 
-    result = upstream.post_json(
-        "/compatible-mode/v1/chat/completions", {"model": "qwen3-vl-plus"}
-    )
+    result = upstream.post_json("/compatible-mode/v1/chat/completions", {"model": "qwen3-vl-plus"})
     assert result == {"choices": []}
     assert attempts == 2
     assert delays == [0.25]

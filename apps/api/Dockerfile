@@ -28,6 +28,8 @@ RUN if [ "$CAMCAT_PREBUILT_RUNTIME" = "true" ]; then \
 COPY apps/api ./apps/api
 COPY tests ./tests
 COPY scripts ./scripts
+COPY packages/contracts ./packages/contracts
+COPY apps/web/src/generated ./apps/web/src/generated
 COPY docs ./docs
 COPY infra/fonts/99-camcat-cjk.conf /etc/fonts/conf.d/99-camcat-cjk.conf
 RUN pip install --no-deps .
