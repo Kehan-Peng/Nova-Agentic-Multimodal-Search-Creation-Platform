@@ -62,7 +62,7 @@ class ObjectStore:
                         "Filter": {"Prefix": "temporary/"},
                         "Expiration": {"Days": 1},
                         "AbortIncompleteMultipartUpload": {"DaysAfterInitiation": 1},
-                    }
+                    },
                 ]
             },
         )
@@ -108,9 +108,7 @@ class ObjectStore:
             )
         )
 
-    def signed_download_url(
-        self, key: str, filename: str, expires_seconds: int = 3600
-    ) -> str:
+    def signed_download_url(self, key: str, filename: str, expires_seconds: int = 3600) -> str:
         return str(
             self._public_client.generate_presigned_url(
                 "get_object",

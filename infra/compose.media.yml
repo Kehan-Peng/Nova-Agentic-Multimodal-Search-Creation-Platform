@@ -1,0 +1,20 @@
+# Run from the repository root, with docker-compose.yml first.
+services:
+  media-proxy:
+    image: caddy:2.10.2-alpine
+    environment:
+      CAMCAT_MEDIA_DOMAIN: ${CAMCAT_MEDIA_DOMAIN:?set an owned public media hostname}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/media.Caddyfile:/etc/caddy/Caddyfile:ro
+      - media-tls-data:/data
+      - media-tls-config:/config
+    depends_on:
+      minio:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  media-tls-data:
+  media-tls-config:

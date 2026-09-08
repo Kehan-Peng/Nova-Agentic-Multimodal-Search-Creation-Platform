@@ -11,9 +11,7 @@ pytestmark = pytest.mark.integration
 
 def test_project_session_patch_conflict_audit_and_soft_delete_journey() -> None:
     with TestClient(app, raise_server_exceptions=False) as client:
-        project = client.post(
-            "/api/v1/projects", json={"name": f"integration-{uuid4()}"}
-        )
+        project = client.post("/api/v1/projects", json={"name": f"integration-{uuid4()}"})
         assert project.status_code == 201
         project_id = project.json()["project_id"]
 

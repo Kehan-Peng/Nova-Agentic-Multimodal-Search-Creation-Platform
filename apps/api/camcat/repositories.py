@@ -455,9 +455,7 @@ class JobRepository:
                         operation.get("value"), list
                     ):
                         operation["value"] = [
-                            item
-                            for item in operation["value"]
-                            if item.get("origin") != "source"
+                            item for item in operation["value"] if item.get("origin") != "source"
                         ]
                 patch.operations = operations
             session.expired_at = cutoff

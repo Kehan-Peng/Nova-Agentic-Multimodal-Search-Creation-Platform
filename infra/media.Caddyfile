@@ -1,0 +1,19 @@
+{
+	# Never log signed URLs, including during upstream errors.
+	log default {
+		level ERROR
+		exclude http.log.error
+	}
+}
+
+{$CAMCAT_MEDIA_DOMAIN} {
+	# Preserve the original Host, path and query for MinIO SigV4 validation.
+	# Only playback/download is public; internal clients upload directly to MinIO.
+	@read method GET HEAD
+	handle @read {
+		reverse_proxy minio:9000
+	}
+	handle {
+		respond "Method not allowed" 405
+	}
+}
